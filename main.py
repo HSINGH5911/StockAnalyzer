@@ -13,5 +13,5 @@ def open_input():
 
 root = tk.Tk()
 root.geometry("800x500")
-ttk.Button(root, text="Open singular stock", command=open_input).pack()
+ttk.Button(root, text="Open window", command=open_input).pack()
 root.mainloop()

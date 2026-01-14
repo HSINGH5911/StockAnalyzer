@@ -126,5 +126,3 @@ class InputWindow(tk.Toplevel):
         self.dropdown.set("Select Options")
 
         plt.close("all")
-
-
