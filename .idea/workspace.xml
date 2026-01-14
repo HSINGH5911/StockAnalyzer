@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b5673278-27c4-4066-bfec-0e104d02afaa" name="Changes" comment="Cleaned up gui and added clear buttons and date picker for start and end date">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/input_window.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -86,8 +87,43 @@
       <option name="project" value="LOCAL" />
       <updated>1766020236383</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Cleaned up gui and added clear buttons and date picker for start and end date">
+      <option name="closed" value="true" />
+      <created>1768280984006</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1768280984006</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Cleaned up gui and added clear buttons and date picker for start and end date">
+      <option name="closed" value="true" />
+      <created>1768281039058</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1768281039058</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Cleaned up gui and added clear buttons and date picker for start and end date">
+      <option name="closed" value="true" />
+      <created>1768358460814</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1768358460814</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Hi" />

@@ -16,42 +16,86 @@ class InputWindow(tk.Toplevel):
         frm = ttk.Frame(self)
         frm.grid(padx=20, pady=20)
 
-        ttk.Label(frm, text="Ticker", anchor="w").grid(row=0, column=0, sticky=tk.W)
-        self.e_ticker = ttk.Entry(frm)
-        self.e_ticker.grid(row=0, column=1)
+        frm.columnconfigure(0, weight=0)
+        frm.columnconfigure(1, weight=1)
 
-        ttk.Label(frm, text="Start Date", anchor="w").grid(row=1, column=0, sticky=tk.W)
+        LABEL_OPTS = dict(padx=5, pady=5, sticky="w")
+        INPUT_OPTS = dict(padx=5, pady=5, sticky="w")
+
+        ttk.Label(frm, text="Ticker", anchor="w").grid(row=0, column=0, **LABEL_OPTS)
+        self.e_ticker = ttk.Entry(frm, width=25)
+        self.e_ticker.grid(row=0, column=1, **INPUT_OPTS)
+
+        ttk.Label(frm, text="Start Date", anchor="w").grid(row=1, column=0, **LABEL_OPTS)
         self.e_start_date = DateEntry(
             frm,
             date_pattern="yyyy-mm-dd",
-            state="readonly",
-            showweeknumbers=False
+            showweeknumbers=False,
+            width=22
         )
+        self.e_start_date.grid(row=1, column=1, **INPUT_OPTS)
 
-        self.e_start_date.grid(row=1, column=1, padx = 15, sticky=tk.W)
+        ttk.Label(frm, text="End Date", anchor="w").grid(row=2, column=0, **LABEL_OPTS)
+        self.e_end_date = DateEntry(
+            frm,
+            date_pattern="yyyy-mm-dd",
+            showweeknumbers=False,
+            width=22
+        )
+        self.e_end_date.grid(row=2, column=1, **INPUT_OPTS)
 
-        ttk.Label(frm, text="End Date", anchor="w").grid(row=2, column=0, sticky=tk.W)
-        self.e_end_date = DateEntry(frm, date_pattern="yyyy-mm-dd")
-        self.e_end_date.grid(row=2, column=1, padx =15, sticky=tk.W)
-
-        ttk.Label(frm, text="Field", anchor="w").grid(row=3, column=0, sticky=tk.W)
+        ttk.Label(frm, text="Field", anchor="w").grid(row=3, column=0, **LABEL_OPTS)
         self.selected = tk.StringVar(value="Close")
         self.dropdown = ttk.Combobox(
             frm,
             textvariable=self.selected,
             values=["Close", "Open", "High", "Low"],
             state="readonly",
+            width=22
         )
-        self.dropdown.grid(row=3, column=1, padx = 15, sticky=tk.W)
+        self.dropdown.grid(row=3, column=1, **INPUT_OPTS)
 
         btn_frame = ttk.Frame(frm)
-        btn_frame.grid(row=4, column=0, columnspan=2)
+        btn_frame.grid(row=4, column=0, columnspan=2, pady=10)
 
-        ttk.Button(btn_frame, text="Submit", command=self.submit).pack(side="left", padx=5)
-        ttk.Button(btn_frame, text="Clear", command=self.clear).pack(side="left", padx=5)
+        self.submit_btn = ttk.Button(
+            btn_frame,
+            text="Submit",
+            command=self.submit,
+            state="disabled"
+        )
+        self.submit_btn.pack(side="left", padx=10)
+        self.e_ticker.bind("<KeyRelease>", self.validateTicker)
+
+        ttk.Button(btn_frame, text="Clear", command=self.clear).pack(side="left", padx=10)
 
 
+    def validateTicker(self, event=None):
 
+        if self.e_ticker.get().strip():
+            self.submit_btn.state(["!disabled"])
+        else:
+            self.submit_btn.state(["disabled"])
+
+    def validateTickerExists(self, event=None):
+        ticker = self.e_ticker.get().strip().upper()
+
+        if not ticker:
+            self.submit_btn.state(['disabled'])
+            return
+
+        try:
+            df = yf.download(ticker, period="5d", progress=False, auto_adjust=True)
+
+            if df.empty:
+                messagebox.showerror("Invalid Ticker", f"No data found for {ticker}", parent=self)
+                self.submit_btn.state(['disabled'])
+            else:
+                self.submit_btn.state(["!disabled"])
+
+        except Exception:
+            messagebox.showerror("Could not find ticker", parent=self)
+            self.submit_btn.state(['disabled'])
     """
     # Method To Make Sure The Dates Are Valid
 
@@ -68,6 +112,9 @@ class InputWindow(tk.Toplevel):
     # Method To Send All Data To The Graph
     """
     def submit(self):
+        if not self.validateTickerExists():
+            return
+
         ticker = self.e_ticker.get().upper()
         start = self.e_start_date.get_date().strftime("%Y-%m-%d")
         end = self.e_end_date.get_date().strftime("%Y-%m-%d")
@@ -79,15 +126,15 @@ class InputWindow(tk.Toplevel):
 
         field = self.selected.get()
         if field not in df.columns:
-            messagebox.showerror("Error", "Invalid Field")
+            messagebox.showerror("Error", "Invalid Field", parent=self)
             return
 
         if not self.valid_dates(start, end):
-            messagebox.showerror("Error", "Invalid Date")
+            messagebox.showerror("Error", "Invalid Date", parent=self)
             return
 
         if df.empty:
-            messagebox.showerror("Error", "No data found")
+            messagebox.showerror("Error", "No data found", parent=self)
             return
 
         plt.figure(figsize=(8,8))
