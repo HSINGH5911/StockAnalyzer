@@ -1,7 +1,5 @@
 import yfinance as yf
-import pandas as pd
 from datetime import datetime
-import numpy as np
 import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import ttk, messagebox
@@ -22,11 +20,11 @@ class InputWindow(tk.Toplevel):
         LABEL_OPTS = dict(padx=5, pady=5, sticky="w")
         INPUT_OPTS = dict(padx=5, pady=5, sticky="w")
 
-        ttk.Label(frm, text="Ticker", anchor="w").grid(row=0, column=0, **LABEL_OPTS)
+        ttk.Label(frm, text="Ticker", anchor="w", style='Reg.TLabel').grid(row=0, column=0, **LABEL_OPTS)
         self.e_ticker = ttk.Entry(frm, width=25)
         self.e_ticker.grid(row=0, column=1, **INPUT_OPTS)
 
-        ttk.Label(frm, text="Start Date", anchor="w").grid(row=1, column=0, **LABEL_OPTS)
+        ttk.Label(frm, text="Start Date", anchor="w", style='Reg.TLabel').grid(row=1, column=0, **LABEL_OPTS)
         self.e_start_date = DateEntry(
             frm,
             date_pattern="yyyy-mm-dd",
@@ -35,7 +33,7 @@ class InputWindow(tk.Toplevel):
         )
         self.e_start_date.grid(row=1, column=1, **INPUT_OPTS)
 
-        ttk.Label(frm, text="End Date", anchor="w").grid(row=2, column=0, **LABEL_OPTS)
+        ttk.Label(frm, text="End Date", anchor="w", style='Reg.TLabel').grid(row=2, column=0, **LABEL_OPTS)
         self.e_end_date = DateEntry(
             frm,
             date_pattern="yyyy-mm-dd",
@@ -44,7 +42,7 @@ class InputWindow(tk.Toplevel):
         )
         self.e_end_date.grid(row=2, column=1, **INPUT_OPTS)
 
-        ttk.Label(frm, text="Field", anchor="w").grid(row=3, column=0, **LABEL_OPTS)
+        ttk.Label(frm, text="Field", anchor="w", style='Reg.TLabel').grid(row=3, column=0, **LABEL_OPTS)
         self.selected = tk.StringVar(value="Close")
         self.dropdown = ttk.Combobox(
             frm,
@@ -82,20 +80,31 @@ class InputWindow(tk.Toplevel):
 
         if not ticker:
             self.submit_btn.state(['disabled'])
-            return
+            return False
 
         try:
             df = yf.download(ticker, period="5d", progress=False, auto_adjust=True)
 
             if df.empty:
-                messagebox.showerror("Invalid Ticker", f"No data found for {ticker}", parent=self)
+                messagebox.showerror(
+                    "Invalid Ticker",
+                    f"No data found for {ticker}",
+                    parent=self
+                )
                 self.submit_btn.state(['disabled'])
-            else:
-                self.submit_btn.state(["!disabled"])
+                return False
+
+            return True
 
         except Exception:
-            messagebox.showerror("Could not find ticker", parent=self)
+            messagebox.showerror(
+                "Error",
+                "Could not find ticker",
+                parent=self
+            )
             self.submit_btn.state(['disabled'])
+            return False
+
     """
     # Method To Make Sure The Dates Are Valid
 
@@ -112,6 +121,7 @@ class InputWindow(tk.Toplevel):
     # Method To Send All Data To The Graph
     """
     def submit(self):
+        print("hello")
         if not self.validateTickerExists():
             return
 
