@@ -35,6 +35,24 @@ class InputLevel(tk.Toplevel):
         self.dynamic_labels.grid(row=1, column=0, **LABEL_OPTS)
         self.dynamic_widgets = []
 
+        ttk.Label(frm, text="Start Date", anchor="w", style='Reg.TLabel').grid(row=10, column=0, **LABEL_OPTS)
+        self.e_start_date = DateEntry(
+            frm,
+            date_pattern="yyyy-mm-dd",
+            showweeknumbers=False,
+            width=22,
+            pady=15
+        )
+        self.e_start_date.grid(row=10, column=1, **INPUT_OPTS)
+
+        ttk.Label(frm, text="End Date", anchor="w", style='Reg.TLabel').grid(row=11, column=0, **LABEL_OPTS)
+        self.e_end_date = DateEntry(
+            frm,
+            date_pattern="yyyy-mm-dd",
+            showweeknumbers=False,
+            width=22
+        )
+        self.e_start_date.grid(row=11, column=1, **INPUT_OPTS)
 
     def update_labels(self, event=None):
 
