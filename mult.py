@@ -10,3 +10,48 @@ class InputLevel(tk.Toplevel):
         super().__init__(parent)
         self.title = "Multiple"
         self.geometry("800x500")
+
+        frm = ttk.Frame(self)
+        frm.grid(padx=20, pady=20)
+
+        LABEL_OPTS = dict(padx=5, pady=5, sticky="w")
+        INPUT_OPTS = dict(padx=5, pady=5, sticky="w")
+
+        frm.columnconfigure(0, weight=0)
+        frm.columnconfigure(1, weight=1)
+
+        ttk.Label(frm, text="Enter amount of tickers").grid(row=0, column=0, **LABEL_OPTS)
+        self.selected_ticker = tk.StringVar(value="2")
+        self.dropdown = ttk.Combobox(
+            frm,
+            textvariable=self.selected_ticker,
+            values=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            state="readonly",
+            width=22
+        )
+        self.dropdown.grid(row=0, column=1, **INPUT_OPTS)
+        self.dropdown.bind("<<ComboboxSelected>>", self.update_labels)
+        self.dynamic_labels = ttk.Frame(frm)
+        self.dynamic_labels.grid(row=1, column=0, **LABEL_OPTS)
+        self.dynamic_widgets = []
+
+
+    def update_labels(self, event=None):
+
+        for widget in self.dynamic_widgets:
+            widget.destroy()
+
+        self.dynamic_widgets.clear()
+
+        num_tickers = self.selected_ticker.get()
+
+        for i in range(num_tickers):
+            label = ttk.Label(
+                self.dynamic_labels,
+                text=f"Ticker: {i + 1}",
+            )
+            label.grid(row=i, column=0)
+
+            self.dynamic_labels.append(label)
+
+

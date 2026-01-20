@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b5673278-27c4-4066-bfec-0e104d02afaa" name="Changes" comment="Cleaned up gui and added clear buttons and date picker for start and end date">
-      <change afterPath="$PROJECT_DIR$/mult.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/single.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mult.py" beforeDir="false" afterPath="$PROJECT_DIR$/mult.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/single.py" beforeDir="false" afterPath="$PROJECT_DIR$/single.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -66,6 +66,7 @@ class InputWindow(tk.Toplevel):
         self.e_ticker.bind("<KeyRelease>", self.validateTicker)
 
         ttk.Button(btn_frame, text="Clear", command=self.clear).pack(side="left", padx=10)
+        ttk.Button(btn_frame, text="Close", command=self.close).pack(side="left", padx=10)
 
 
     def validateTicker(self, event=None):
@@ -121,7 +122,6 @@ class InputWindow(tk.Toplevel):
     # Method To Send All Data To The Graph
     """
     def submit(self):
-        print("hello")
         if not self.validateTickerExists():
             return
 
@@ -183,3 +183,6 @@ class InputWindow(tk.Toplevel):
         self.dropdown.set("Select Options")
 
         plt.close("all")
+
+    def close(self):
+        tk.Toplevel.destroy(self)
