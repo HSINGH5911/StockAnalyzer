@@ -8,7 +8,7 @@ from tkcalendar import DateEntry
 class InputLevel(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
-        self.title = "Multiple"
+        self.title("Multiple")
         self.geometry("800x500")
 
         frm = ttk.Frame(self)
@@ -21,7 +21,7 @@ class InputLevel(tk.Toplevel):
         frm.columnconfigure(1, weight=1)
 
         ttk.Label(frm, text="Enter amount of tickers").grid(row=0, column=0, **LABEL_OPTS)
-        self.selected_ticker = tk.StringVar(value="2")
+        self.selected_ticker = tk.StringVar(value="Enter amount")
         self.dropdown = ttk.Combobox(
             frm,
             textvariable=self.selected_ticker,
@@ -43,15 +43,18 @@ class InputLevel(tk.Toplevel):
 
         self.dynamic_widgets.clear()
 
-        num_tickers = self.selected_ticker.get()
+        num_tickers =int(self.selected_ticker.get())
 
         for i in range(num_tickers):
             label = ttk.Label(
                 self.dynamic_labels,
-                text=f"Ticker: {i + 1}",
+                text=f"Ticker {i + 1}:",
             )
             label.grid(row=i, column=0)
 
-            self.dynamic_labels.append(label)
+            entry = ttk.Entry(self.dynamic_labels, width=20)
+            entry.grid(row=i, column=1, padx=5, pady=5, sticky=tk.W)
+
+            self.dynamic_widgets.append(label)
 
 
